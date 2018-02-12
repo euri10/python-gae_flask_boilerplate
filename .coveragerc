@@ -1,0 +1,16 @@
+[paths]
+source =
+   src/gae_flask_boilerplate
+   */site-packages/gae_flask_boilerplate
+
+[run]
+branch = true
+source =
+    gae_flask_boilerplate
+    tests
+parallel = true
+
+[report]
+show_missing = true
+precision = 2
+omit = *migrations*
