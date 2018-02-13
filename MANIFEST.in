@@ -2,6 +2,7 @@ graft docs
 graft src
 graft ci
 graft tests
+prune src/gae_flask_boilerplate/lib
 
 include .bumpversion.cfg
 include .coveragerc
@@ -17,3 +18,4 @@ include README.rst
 include tox.ini .travis.yml appveyor.yml
 
 global-exclude *.py[cod] __pycache__ *.so *.dylib
+

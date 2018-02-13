@@ -7,4 +7,4 @@ api = Api(api_v1, version='1.0', title='Client API', description='A simple Clien
 ns = api.namespace('clients', description='clients operations')
 
 
-from . import views  # noqa:E402,F401
+from . import views  # noqa:E402,F401 isort:skip

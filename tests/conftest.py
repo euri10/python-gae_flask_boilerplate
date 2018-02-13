@@ -1,21 +1,22 @@
 import json
 import os
+import sys
 
 import pytest
 from flask.testing import FlaskClient
 
 from gae_flask_boilerplate import create_app
 
-
-import sys
 sys.path.insert(1, '/home/lotso/google-cloud-sdk/platform/google_appengine')
-import dev_appserver  # noqa:E402
-#
-dev_appserver.fix_sys_path()
 sys.path.insert(1, '/home/lotso/PycharmProjects/python-gae_flask_boilerplate/src/gae_flask_boilerplate')
-from google.appengine.tools.devappserver2 import application_configuration  # noqa:E402
+import dev_appserver  # noqa:E402 isort:skip
 
-cfg = application_configuration.ApplicationConfiguration(['/home/lotso/PycharmProjects/python-gae_flask_boilerplate/src/gae_flask_boilerplate/app.yaml'])
+
+dev_appserver.fix_sys_path()  # isort:skip
+from google.appengine.tools.devappserver2 import application_configuration  # noqa:E402 isort:skip
+
+
+cfg = application_configuration.ApplicationConfiguration(['/home/lotso/PycharmProjects/python-gae_flask_boilerplate/src/gae_flask_boilerplate/app.yaml'])  # noqa:E501
 os.environ['APPLICATION_ID'] = cfg.app_id
 # simulate same environment as devappserver2
 os.environ['CURRENT_VERSION_ID'] = cfg.modules[0].version_id
@@ -26,7 +27,7 @@ try:
 except ImportError:
     print('Note: unable to import appengine_config.')
 
-from google.appengine.ext import testbed  # noqa:E402
+from google.appengine.ext import testbed  # noqa:E402 isort:skip
 
 
 @pytest.fixture(autouse=True)
@@ -38,8 +39,7 @@ def tb():
     # Next, declare which service stubs you want to use.
     tb.init_datastore_v3_stub()
     tb.init_memcache_stub()
-    tb.init_user_stub()
-
+    # tb.init_user_stub()
     yield tb
     # Don't forget to deactivate the testbed after the tests are
     # completed. If the testbed is not deactivated, the original
