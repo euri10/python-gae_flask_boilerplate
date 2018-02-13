@@ -1,9 +1,50 @@
 import json
+import os
 
 import pytest
 from flask.testing import FlaskClient
 
 from gae_flask_boilerplate import create_app
+
+
+import sys
+sys.path.insert(1, '/home/lotso/google-cloud-sdk/platform/google_appengine')
+import dev_appserver  # noqa:E402
+#
+dev_appserver.fix_sys_path()
+sys.path.insert(1, '/home/lotso/PycharmProjects/python-gae_flask_boilerplate/src/gae_flask_boilerplate')
+from google.appengine.tools.devappserver2 import application_configuration  # noqa:E402
+
+cfg = application_configuration.ApplicationConfiguration(['/home/lotso/PycharmProjects/python-gae_flask_boilerplate/src/gae_flask_boilerplate/app.yaml'])
+os.environ['APPLICATION_ID'] = cfg.app_id
+# simulate same environment as devappserver2
+os.environ['CURRENT_VERSION_ID'] = cfg.modules[0].version_id
+
+
+try:
+    import appengine_config  # noqa:F401
+except ImportError:
+    print('Note: unable to import appengine_config.')
+
+from google.appengine.ext import testbed  # noqa:E402
+
+
+@pytest.fixture(autouse=True)
+def tb():
+    tb = testbed.Testbed()
+    # Then activate the testbed, which will allow you to use
+    # service stubs.
+    tb.activate()
+    # Next, declare which service stubs you want to use.
+    tb.init_datastore_v3_stub()
+    tb.init_memcache_stub()
+    tb.init_user_stub()
+
+    yield tb
+    # Don't forget to deactivate the testbed after the tests are
+    # completed. If the testbed is not deactivated, the original
+    # stubs will not be restored.
+    tb.deactivate()
 
 
 class TestClient(FlaskClient):
