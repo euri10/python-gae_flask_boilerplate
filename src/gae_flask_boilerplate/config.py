@@ -2,6 +2,12 @@ import os
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 
+if os.environ.get('SERVER_SOFTWARE', '').startswith('Development') or os.environ.get('SERVER_SOFTWARE', '') == '':
+    DEVELOPMENT = True
+else:
+    DEVELOPMENT = False
+
+
 
 class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'hard to guess string'
