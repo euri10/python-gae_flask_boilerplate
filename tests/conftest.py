@@ -7,8 +7,8 @@ from flask.testing import FlaskClient
 
 from gae_flask_boilerplate import create_app
 
-sys.path.insert(1, '/home/lotso/google-cloud-sdk/platform/google_appengine')
-sys.path.insert(1, '/home/lotso/PycharmProjects/python-gae_flask_boilerplate/src/gae_flask_boilerplate')
+sys.path.insert(1, os.environ.get('GAEPATH'))
+sys.path.insert(1, os.environ.get('SRCPATH'))
 import dev_appserver  # noqa:E402 isort:skip
 
 
@@ -16,7 +16,7 @@ dev_appserver.fix_sys_path()  # isort:skip
 from google.appengine.tools.devappserver2 import application_configuration  # noqa:E402 isort:skip
 
 
-cfg = application_configuration.ApplicationConfiguration(['/home/lotso/PycharmProjects/python-gae_flask_boilerplate/src/gae_flask_boilerplate/app.yaml'])  # noqa:E501
+cfg = application_configuration.ApplicationConfiguration([os.path.join(os.environ.get('SRCPATH'),'app.yaml')])  # noqa:E501
 os.environ['APPLICATION_ID'] = cfg.app_id
 # simulate same environment as devappserver2
 os.environ['CURRENT_VERSION_ID'] = cfg.modules[0].version_id
